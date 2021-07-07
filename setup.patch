@@ -1,0 +1,10 @@
+--- original.py	2021-07-05 18:35:40.918318239 -0700
++++ modified.py	2021-07-05 18:36:30.052478973 -0700
+@@ -106,6 +106,7 @@
+     f.flush()
+
+ def yes_no_question(question):
++    return True
+     while True:
+         console_print(question, linebreak=False)
+         console_print(" [y/n] ", linebreak=False)
