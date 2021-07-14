@@ -4,9 +4,18 @@ This repository provides the `dropbox` container image for running the Dropbox c
 
 **What is podman?**
 
-Docker, both as a company and as a product, is deprecated - podman is the standardized replacement for Docker which also
-provides a number of essential improvements, namely rootless containers - the ability to run a container as a specific
-user, rather than running everything as root (a bad idea!)
+Docker, both as a company and as a product, is deprecated. Podman is the standardized replacement for Docker which also
+provides a number of essential improvements, namely rootless containers, which have the ability to run a container as a
+specific user, rather than running everything as root (a bad idea!)
+
+**Why use a container?**
+
+The Dropbox agent for Linux is very restrictive in how it operates, with two major problems:
+- Your Dropbox data must be stored in your home directory with no option to change it
+- It does not operate as a normal system service (such as a systemd service unit)
+
+Using a container allows you to work around both of these issues. Mapped volumes allow you to store your Dropbox data
+wherever you wish, and podman containers can be controlled by systemd service units.
 
 # Quick Start Guide
 
@@ -37,8 +46,7 @@ Please visit https://www.dropbox.com/cli_link_nonce?nonce=xxxxxxxxxxxxxxxxxxxxxx
 
 *Mounts and other parameters are explained below*
 
-Click that link and log in with your Dropbox account. **After you log in, the container will exit**, this is a known
-bug.
+Click that link and log in with your Dropbox account.
 
 ### 3. Run the container
 

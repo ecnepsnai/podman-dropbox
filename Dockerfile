@@ -3,7 +3,8 @@ LABEL maintainer="Ian Spence <ian@ecn.io>"
 LABEL org.opencontainers.image.authors="Ian Spence <ian@ecn.io>"
 LABEL org.opencontainers.image.source=https://github.com/ecnepsnai/podman-dropbox
 LABEL org.opencontainers.image.title="dropbox"
-LABEL org.opencontainers.image.description="The Docker client, compatible with podman and rootless containers"
+LABEL org.opencontainers.image.description="The Dropbox client, compatible with podman and rootless containers"
+LABEL org.opencontainers.image.licenses="MIT"
 
 # Update and install required libraries
 RUN dnf -y update
