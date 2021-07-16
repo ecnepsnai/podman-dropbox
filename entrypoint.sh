@@ -39,12 +39,24 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-# The dropboxd executable will exit after it's forked off the backend daemon
-# annoyingly, there is no way to tell dropbox to run in the foreground
-# so check if it's runnin in the background, and if it is then wait for the pid
-PID=$(pidof dropbox)
-echo "Dropbox agent running with PID ${PID}, waiting..."
+# After the dropbox process has started it may randomly restart. I don't know why it does this, but it's just
+# another annoying hassle this script has to deal with.
+# Find the process and wait for it. If it exits, try and find another process otherwise exit.
+function watch_dropbox_pid {
+    PID=$(pidof dropbox)
+    if [ $? -ne 0 ]; then
+        >&2 echo "Dropbox is not running"
+        exit 1
+    fi
+    echo "Dropbox agent running with PID ${PID}, waiting..."
+    tail --pid=${PID} -f /dev/null
+    echo "Dropbox PID ${PID} exited, finding new PID..."
+    sleep 5
+    watch_dropbox_pid
+}
 if [ -f /tmp/dropbox-antifreeze-* ]; then
     tail -n 0 -f /tmp/dropbox-antifreeze-* &
+else
+    echo "No dropbox log found"
 fi
-tail --pid=${PID} -f /dev/null
+watch_dropbox_pid

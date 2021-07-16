@@ -7,8 +7,8 @@ LABEL org.opencontainers.image.description="The Dropbox client, compatible with 
 LABEL org.opencontainers.image.licenses="MIT"
 
 # Update and install required libraries
-RUN dnf -y update
-RUN dnf -y install gpg mesa-libglapi libXext libXdamage libxshmfence libXxf86vm patch procps-ng
+RUN dnf -y update && \
+    dnf -y install gpg mesa-libglapi libXext libXdamage libxshmfence libXxf86vm patch procps-ng
 
 # Download the dropbox setup python script
 WORKDIR /root
@@ -16,8 +16,7 @@ RUN curl https://linux.dropbox.com/packages/dropbox.py > setup.py
 
 # Apply a patch that auto-accepts any questions from the script
 ADD setup.patch /root
-RUN patch setup.py < setup.patch
-RUN rm setup.patch
+RUN patch setup.py < setup.patch && rm setup.patch
 
 # Add a convience 'dropbox' command that calls the helper python script
 RUN echo '#!/bin/bash' > /bin/dropbox && \
