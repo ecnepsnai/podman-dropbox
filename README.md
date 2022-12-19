@@ -1,3 +1,9 @@
+# Deprecated
+
+I no longer use dropbox so this container image is not maintained.
+
+---
+
 # Podman Dropbox
 
 This repository provides the `dropbox` container image for running the Dropbox client on a machine with Podman.
